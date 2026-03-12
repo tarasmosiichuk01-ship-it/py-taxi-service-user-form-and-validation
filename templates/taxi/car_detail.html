@@ -7,15 +7,18 @@
   </h1>
   <p><strong>Manufacturer:</strong> {{ car.manufacturer.name }} ({{ car.manufacturer.country }})</p>
   <h1>Drivers
+    <form action="{% url 'taxi:toggle-car-assign' pk=car.id %}" method="post">
+    {% csrf_token %}
     {% if request.user  in car.drivers.all %}
-      <a href="{% url 'taxi:toggle-car-assign' pk=car.id %}" class="btn btn-danger link-to-page">
+      <button type="submit" class="btn btn-danger link-to-page">
         Delete me from this car
-      </a>
+      </button>
     {% else %}
-      <a href="{% url 'taxi:toggle-car-assign' pk=car.id %}" class="btn btn-success link-to-page">
+      <button type="submit" class="btn btn-success link-to-page">
       Assign me to this car
-      </a>
+      </button>
     {% endif %}
+    </form>
   </h1>
   <hr>
   <ul>
