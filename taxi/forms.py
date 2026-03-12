@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 
 
-from taxi.models import Driver, Car
+from taxi.models import Car
 
 
 class DriverCreationForm(UserCreationForm):
