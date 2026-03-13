@@ -10,6 +10,7 @@ from taxi.models import Car, Manufacturer
 
 driver = get_user_model()
 
+
 @login_required
 def index(request):
     """View function for the home page of the site."""
