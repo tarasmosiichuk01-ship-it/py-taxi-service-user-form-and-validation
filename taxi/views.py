@@ -5,15 +5,16 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .forms import DriverLicenseUpdateForm, DriverCreationForm, CarForm
-from .models import Car, Manufacturer
+from taxi.forms import DriverLicenseUpdateForm, DriverCreationForm, CarForm
+from taxi.models import Car, Manufacturer
 
+driver = get_user_model()
 
 @login_required
 def index(request):
     """View function for the home page of the site."""
 
-    num_drivers = get_user_model().objects.count()
+    num_drivers = driver.objects.count()
     num_cars = Car.objects.count()
     num_manufacturers = Manufacturer.objects.count()
 
@@ -82,30 +83,30 @@ class CarDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 
 class DriverListView(LoginRequiredMixin, generic.ListView):
-    model = get_user_model()
+    model = driver
     paginate_by = 5
 
 
 class DriverDetailView(LoginRequiredMixin, generic.DetailView):
-    model = get_user_model()
-    queryset = get_user_model().objects.all().prefetch_related(
+    model = driver
+    queryset = driver.objects.all().prefetch_related(
         "cars__manufacturer"
     )
 
 
 class DriverCreateView(LoginRequiredMixin, generic.CreateView):
-    model = get_user_model()
+    model = driver
     form_class = DriverCreationForm
     success_url = reverse_lazy("taxi:driver-list")
 
 
 class DriverDeleteView(LoginRequiredMixin, generic.DeleteView):
-    model = get_user_model()
+    model = driver
     success_url = reverse_lazy("taxi:driver-list")
 
 
 class DriverLicenceUpdateView(LoginRequiredMixin, generic.UpdateView):
-    model = get_user_model()
+    model = driver
     form_class = DriverLicenseUpdateForm
     success_url = reverse_lazy("taxi:driver-list")
 
